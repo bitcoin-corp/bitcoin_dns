@@ -99,7 +99,7 @@ const ExchangePage: React.FC = () => {
   // Mock data for demonstration
   const domainTokens: DomainToken[] = [
     {
-      ticker: 'BDNS-COCA-COLA',
+      ticker: '$bDNS/Coca-Cola',
       domain: 'coca-cola.bdns',
       totalSupply: 1000000,
       marketCap: 250000000,
@@ -111,7 +111,7 @@ const ExchangePage: React.FC = () => {
       lastUpdate: Date.now()
     },
     {
-      ticker: 'BDNS-GOOGLE',
+      ticker: '$bDNS/Google',
       domain: 'google.bdns',
       totalSupply: 2000000,
       marketCap: 800000000,
@@ -123,7 +123,7 @@ const ExchangePage: React.FC = () => {
       lastUpdate: Date.now()
     },
     {
-      ticker: 'BDNS-MICROSOFT',
+      ticker: '$bDNS/Microsoft',
       domain: 'microsoft.bdns',
       totalSupply: 1500000,
       marketCap: 600000000,
@@ -138,7 +138,7 @@ const ExchangePage: React.FC = () => {
 
   const liquidityPools: BRC102Pool[] = [
     {
-      ticker: 'BDNS-COCA-COLA',
+      ticker: '$bDNS/Coca-Cola',
       domain: 'coca-cola.bdns',
       reserves: {
         token: 45000,
@@ -151,7 +151,7 @@ const ExchangePage: React.FC = () => {
       volume24h: 125000
     },
     {
-      ticker: 'BDNS-GOOGLE',
+      ticker: '$bDNS/Google',
       domain: 'google.bdns',
       reserves: {
         token: 78000,
@@ -168,7 +168,7 @@ const ExchangePage: React.FC = () => {
   const governanceProposals: GovernanceProposal[] = [
     {
       id: 'prop-001',
-      ticker: 'BDNS-COCA-COLA',
+      ticker: '$bDNS/Coca-Cola',
       domain: 'coca-cola.bdns',
       title: 'Update Brand Assets and Content',
       description: 'Proposal to update the official brand assets, logos, and promotional content for the Coca-Cola domain to reflect the new campaign.',
@@ -186,7 +186,7 @@ const ExchangePage: React.FC = () => {
     },
     {
       id: 'prop-002',
-      ticker: 'BDNS-GOOGLE',
+      ticker: '$bDNS/Google',
       domain: 'google.bdns',
       title: 'Adjust Revenue Distribution',
       description: 'Proposal to modify the revenue distribution model to allocate 40% to token holders, 30% to liquidity providers, and 30% to development fund.',
@@ -208,7 +208,7 @@ const ExchangePage: React.FC = () => {
     {
       id: 'trade-001',
       type: 'buy',
-      ticker: 'BDNS-COCA-COLA',
+      ticker: '$bDNS/Coca-Cola',
       amount: 100,
       price: 250,
       total: 25000,
@@ -218,7 +218,7 @@ const ExchangePage: React.FC = () => {
     {
       id: 'trade-002',
       type: 'sell',
-      ticker: 'BDNS-GOOGLE',
+      ticker: '$bDNS/Google',
       amount: 50,
       price: 400,
       total: 20000,

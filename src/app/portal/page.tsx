@@ -54,7 +54,7 @@ export default function PortalPage() {
   });
 
   const updateTicker = (subdomain: string) => {
-    const ticker = `BDNS-${subdomain.toUpperCase().replace(/[^A-Z0-9]/g, '')}`;
+    const ticker = `$bDNS/${subdomain}`;
     setSetup({...setup, subdomain, ticker});
   };
 

@@ -10,7 +10,7 @@ export interface BRC101Vote {
 
 export interface BRC101Proposal {
   id: string;
-  ticker: string; // BRC-100 domain token ticker (e.g., "BDNS-COCA-COLA")
+  ticker: string; // BRC-100 domain token ticker (e.g., "$bDNS/Coca-Cola")
   proposalType: 'content_update' | 'subdomain_config' | 'revenue_split' | 'ownership_transfer' | 'governance_update';
   data: Record<string, unknown>;
   proposer: string;

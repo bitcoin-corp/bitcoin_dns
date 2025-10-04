@@ -33,7 +33,7 @@ Each domain creates a BRC-100 token with BRC-101 governance extension:
 const domainToken = {
   p: 'BRC-100',
   op: 'deploy',
-  tick: 'BDNS-COCA-COLA', // Unique ticker per domain
+  tick: '$bDNS/Coca-Cola', // Unique ticker per domain
   max: '1000000',          // Maximum supply
   lim: '1000',            // Mint limit per operation
   ext: ['BRC-101']        // Enable governance extension
@@ -47,7 +47,7 @@ const domainToken = {
 const proposal = {
   p: 'BRC-101',
   op: 'proposal',
-  tick: 'BDNS-COCA-COLA',
+  tick: '$bDNS/Coca-Cola',
   type: 'content_update',
   data: {
     contentHash: 'QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG',
@@ -68,7 +68,7 @@ const proposal = {
 const vote = {
   p: 'BRC-101',
   op: 'vote',
-  tick: 'BDNS-COCA-COLA',
+  tick: '$bDNS/Coca-Cola',
   proposalId: 'prop_123456',
   vote: 'approve',
   amount: '50000' // Token amount for weighted voting
@@ -80,7 +80,7 @@ const vote = {
 const execution = {
   p: 'BRC-101',
   op: 'execute',
-  tick: 'BDNS-COCA-COLA',
+  tick: '$bDNS/Coca-Cola',
   proposalId: 'prop_123456',
   proof: { /* execution proof data */ }
 };
@@ -127,7 +127,7 @@ Each domain creates a BRC-102 AMM pool for automated revenue distribution:
 const poolDeployment = {
   p: 'BRC-102',
   op: 'deploy',
-  tick: 'BDNS-COCA-COLA',
+  tick: '$bDNS/Coca-Cola',
   formula: 'x*y=k',        // Constant product formula
   fee: '0.003',            // 0.3% trading fee
   reserves: {
@@ -157,7 +157,7 @@ graph TD
 const revenueInput = {
   p: 'BRC-102',
   op: 'add_revenue',
-  tick: 'BDNS-COCA-COLA',
+  tick: '$bDNS/Coca-Cola',
   amount: '10000',         // satoshis
   source: 'dns_queries'
 };
@@ -166,7 +166,7 @@ const revenueInput = {
 const distribution = {
   p: 'BRC-102',
   op: 'distribute',
-  tick: 'BDNS-COCA-COLA',
+  tick: '$bDNS/Coca-Cola',
   totalAmount: '10000',
   allocations: {
     liquidity: '4000',     // 40%
@@ -184,7 +184,7 @@ const distribution = {
 const swap = {
   p: 'BRC-102',
   op: 'swap',
-  tick: 'BDNS-COCA-COLA',
+  tick: '$bDNS/Coca-Cola',
   inputToken: 'BTC',
   inputAmount: '5000',
   outputToken: 'TOKEN',
@@ -195,7 +195,7 @@ const swap = {
 const addLiquidity = {
   p: 'BRC-102',
   op: 'add',
-  tick: 'BDNS-COCA-COLA',
+  tick: '$bDNS/Coca-Cola',
   tokenAmount: '1000',
   btcAmount: '500'
 };
@@ -222,7 +222,7 @@ const bridge = {
 ```javascript
 // Parent domain
 const parentDomain = {
-  tick: 'BDNS-COCA-COLA',
+  tick: '$bDNS/Coca-Cola',
   children: [
     'BDNS-COCA-COLA:EUROPE',    // Regional governance
     'BDNS-COCA-COLA:MARKETING', // Department governance
