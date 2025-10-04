@@ -281,8 +281,8 @@ export default function Taskbar() {
         alignItems: 'center',
         justifyContent: 'space-between',
         height: '28px',
-        background: 'linear-gradient(180deg, rgba(0, 40, 15, 0.95) 0%, rgba(0, 30, 10, 0.95) 100%)',
-        borderBottom: '1px solid rgba(0, 255, 136, 0.2)',
+        background: 'linear-gradient(180deg, rgba(139, 92, 246, 0.95) 0%, rgba(245, 158, 11, 0.95) 100%)',
+        borderBottom: '1px solid rgba(253, 224, 71, 0.3)',
         fontSize: '13px',
         fontWeight: '500',
         color: '#ffffff',
@@ -297,7 +297,7 @@ export default function Taskbar() {
           padding: '0 12px',
           fontSize: '18px',
           fontWeight: 'bold',
-          color: '#00ff88'
+          color: '#FDE047'
         }}>
           ₿
         </div>
@@ -316,11 +316,11 @@ export default function Taskbar() {
               padding: '0 12px',
               fontSize: '18px',
               fontWeight: 'bold',
-              color: '#00ff88',
+              color: '#FDE047',
               display: 'flex',
               alignItems: 'center',
               height: '28px',
-              background: showBitcoinSuite ? 'rgba(0, 255, 136, 0.1)' : 'transparent',
+              background: showBitcoinSuite ? 'rgba(253, 224, 71, 0.1)' : 'transparent',
               border: 'none',
               cursor: 'pointer',
               transition: 'background 0.15s ease'
@@ -348,7 +348,7 @@ export default function Taskbar() {
             <div style={{
               padding: '8px 16px',
               fontSize: '12px',
-              color: '#00ff88',
+              color: '#FDE047',
               fontWeight: '600',
               borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
               marginBottom: '4px'
@@ -467,7 +467,7 @@ export default function Taskbar() {
                         transition: 'background 0.15s ease'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(0, 255, 136, 0.2)'
+                        e.currentTarget.style.background = 'rgba(168, 85, 247, 0.2)'
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = 'transparent'
@@ -501,7 +501,7 @@ export default function Taskbar() {
                         transition: 'background 0.15s ease'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(0, 255, 136, 0.2)'
+                        e.currentTarget.style.background = 'rgba(168, 85, 247, 0.2)'
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = 'transparent'
@@ -530,7 +530,7 @@ export default function Taskbar() {
         style={{ 
           fontSize: '14px',
           fontWeight: '600',
-          color: '#00ff88',
+          color: '#FDE047',
           background: 'transparent',
           border: 'none',
           cursor: 'pointer',
@@ -571,7 +571,7 @@ export default function Taskbar() {
         <button
           onClick={() => window.location.href = '/token'}
           style={{
-            background: 'linear-gradient(90deg, #00ff88, #00cc66)',
+            background: 'linear-gradient(90deg, #A855F7, #F59E0B)',
             color: '#000',
             border: 'none',
             padding: '4px 12px',
@@ -584,7 +584,7 @@ export default function Taskbar() {
           }}
           onMouseOver={(e) => {
             e.currentTarget.style.transform = 'translateY(-1px)'
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 255, 136, 0.3)'
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(168, 85, 247, 0.3)'
           }}
           onMouseOut={(e) => {
             e.currentTarget.style.transform = 'translateY(0)'
@@ -694,7 +694,7 @@ export default function Taskbar() {
                           transition: 'background 0.15s ease'
                         }}
                         onTouchStart={(e) => {
-                          e.currentTarget.style.background = 'rgba(0, 255, 136, 0.2)'
+                          e.currentTarget.style.background = 'rgba(168, 85, 247, 0.2)'
                         }}
                         onTouchEnd={(e) => {
                           e.currentTarget.style.background = 'transparent'
@@ -723,7 +723,7 @@ export default function Taskbar() {
                           transition: 'background 0.15s ease'
                         }}
                         onTouchStart={(e) => {
-                          e.currentTarget.style.background = 'rgba(0, 255, 136, 0.2)'
+                          e.currentTarget.style.background = 'rgba(168, 85, 247, 0.2)'
                         }}
                         onTouchEnd={(e) => {
                           e.currentTarget.style.background = 'transparent'

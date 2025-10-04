@@ -7,7 +7,7 @@ interface PocBarProps {
   color?: string;
 }
 
-export default function PocBar({ color = '#00cc66' }: PocBarProps) {
+export default function PocBar({ color = 'linear-gradient(90deg, #A855F7 0%, #F59E0B 100%)' }: PocBarProps) {
   return (
     <div 
       className="poc-banner"
@@ -17,7 +17,7 @@ export default function PocBar({ color = '#00cc66' }: PocBarProps) {
         left: 0,
         right: 0,
         height: '40px',
-        backgroundColor: color,
+        background: color,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start', // Left aligned

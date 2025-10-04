@@ -267,7 +267,7 @@ const ExchangePage: React.FC = () => {
     <div className="container mx-auto p-6 space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-500 to-yellow-400 bg-clip-text text-transparent">
             Bitcoin DNS Exchange
           </h1>
           <p className="text-gray-600 mt-2">
@@ -289,7 +289,7 @@ const ExchangePage: React.FC = () => {
                 <p className="text-sm font-medium text-gray-600">Total Market Cap</p>
                 <p className="text-2xl font-bold">₿{(domainTokens.reduce((sum, token) => sum + token.marketCap, 0) / 100000000).toFixed(2)}</p>
               </div>
-              <DollarSign className="w-8 h-8 text-orange-500" />
+              <DollarSign className="w-8 h-8 text-purple-500" />
             </div>
           </CardContent>
         </Card>
@@ -313,7 +313,7 @@ const ExchangePage: React.FC = () => {
                 <p className="text-sm font-medium text-gray-600">Active Domains</p>
                 <p className="text-2xl font-bold">{domainTokens.length}</p>
               </div>
-              <Globe className="w-8 h-8 text-green-500" />
+              <Globe className="w-8 h-8 text-yellow-500" />
             </div>
           </CardContent>
         </Card>
@@ -360,13 +360,13 @@ const ExchangePage: React.FC = () => {
                       key={token.ticker}
                       className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-colors ${
                         selectedToken?.ticker === token.ticker 
-                          ? 'border-orange-500 bg-orange-50' 
+                          ? 'border-purple-500 bg-purple-50' 
                           : 'border-gray-200 hover:border-gray-300'
                       }`}
                       onClick={() => setSelectedToken(token)}
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-yellow-400 flex items-center justify-center text-white font-bold">
                           {token.domain.split('.')[0].charAt(0).toUpperCase()}
                         </div>
                         <div>
@@ -514,7 +514,7 @@ const ExchangePage: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 flex items-center justify-center text-white text-sm font-bold">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-yellow-400 flex items-center justify-center text-white text-sm font-bold">
                         {pool.domain.split('.')[0].charAt(0).toUpperCase()}
                       </div>
                       {pool.ticker}
@@ -625,7 +625,7 @@ const ExchangePage: React.FC = () => {
 
                   <div className="grid grid-cols-3 gap-4">
                     <div className="text-center">
-                      <p className="text-2xl font-bold text-green-600">{formatNumber(proposal.votes.yes)}</p>
+                      <p className="text-2xl font-bold text-yellow-600">{formatNumber(proposal.votes.yes)}</p>
                       <p className="text-sm text-gray-600">Yes</p>
                     </div>
                     <div className="text-center">
@@ -641,7 +641,7 @@ const ExchangePage: React.FC = () => {
                   {proposal.status === 'active' && (
                     <div className="flex space-x-2">
                       <Button variant="outline" className="flex-1">
-                        <span className="text-green-600">Vote Yes</span>
+                        <span className="text-yellow-600">Vote Yes</span>
                       </Button>
                       <Button variant="outline" className="flex-1">
                         <span className="text-red-600">Vote No</span>
@@ -681,7 +681,7 @@ const ExchangePage: React.FC = () => {
                   {domainTokens.slice(0, 2).map((token) => (
                     <div key={token.ticker} className="flex items-center justify-between p-4 rounded-lg border">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 flex items-center justify-center text-white text-sm font-bold">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-yellow-400 flex items-center justify-center text-white text-sm font-bold">
                           {token.domain.split('.')[0].charAt(0).toUpperCase()}
                         </div>
                         <div>
@@ -721,7 +721,7 @@ const ExchangePage: React.FC = () => {
                       </div>
                       <div className="text-right">
                         <p className="font-semibold">{formatPrice(pool.totalLiquidity * 0.025)}</p>
-                        <p className="text-sm text-green-600">{pool.apy}% APY</p>
+                        <p className="text-sm text-yellow-600">{pool.apy}% APY</p>
                       </div>
                     </div>
                   ))}
@@ -736,13 +736,13 @@ const ExchangePage: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="text-center p-4 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg">
-                  <p className="text-2xl font-bold text-orange-600">₿0.0245</p>
-                  <p className="text-sm text-orange-600">Total Portfolio Value</p>
+                <div className="text-center p-4 bg-gradient-to-r from-purple-50 to-yellow-50 rounded-lg">
+                  <p className="text-2xl font-bold text-purple-600">₿0.0245</p>
+                  <p className="text-sm text-purple-600">Total Portfolio Value</p>
                 </div>
-                <div className="text-center p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
-                  <p className="text-2xl font-bold text-green-600">+12.5%</p>
-                  <p className="text-sm text-green-600">24h Change</p>
+                <div className="text-center p-4 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-lg">
+                  <p className="text-2xl font-bold text-yellow-600">+12.5%</p>
+                  <p className="text-sm text-yellow-600">24h Change</p>
                 </div>
                 <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg">
                   <p className="text-2xl font-bold text-blue-600">₿0.0018</p>

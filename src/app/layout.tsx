@@ -4,6 +4,7 @@ import "./globals.css";
 import PocBar from "@/components/PocBar";
 import DevLayout from "@/components/DevLayout";
 import Dock from "@/components/Dock";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <PocBar />
         <DevLayout>
           {children}
+          <Footer />
         </DevLayout>
         <Dock />
       </body>
