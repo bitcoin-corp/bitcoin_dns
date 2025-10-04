@@ -7,7 +7,7 @@ interface PocBarProps {
   color?: string;
 }
 
-export default function PocBar({ color = 'linear-gradient(90deg, #A855F7 0%, #F59E0B 100%)' }: PocBarProps) {
+export default function PocBar({ color = 'linear-gradient(90deg, #A855F7 0%, #3B82F6 100%)' }: PocBarProps) {
   return (
     <div 
       className="poc-banner"
@@ -18,16 +18,18 @@ export default function PocBar({ color = 'linear-gradient(90deg, #A855F7 0%, #F5
         right: 0,
         height: '40px',
         background: color,
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start', // Left aligned
         zIndex: 9999,
         fontSize: '13px',
         fontWeight: '500',
-        color: 'black',
+        color: 'white',
         letterSpacing: '0.5px',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        borderBottom: '1px solid rgba(0,0,0,0.2)',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+        borderBottom: '1px solid rgba(255,255,255,0.2)',
         padding: '0 12px',
       }}
     >
@@ -39,7 +41,7 @@ export default function PocBar({ color = 'linear-gradient(90deg, #A855F7 0%, #F5
           <Link 
             href="/token" 
             style={{ 
-              color: 'black', 
+              color: 'white', 
               textDecoration: 'underline',
               opacity: 0.9,
               fontWeight: '400'
@@ -50,7 +52,7 @@ export default function PocBar({ color = 'linear-gradient(90deg, #A855F7 0%, #F5
           <Link 
             href="/admin" 
             style={{ 
-              color: 'black', 
+              color: 'white', 
               textDecoration: 'underline',
               opacity: 0.9,
               fontWeight: '400'
@@ -63,7 +65,7 @@ export default function PocBar({ color = 'linear-gradient(90deg, #A855F7 0%, #F5
             target="_blank"
             rel="noopener noreferrer"
             style={{ 
-              color: 'black', 
+              color: 'white', 
               textDecoration: 'underline',
               opacity: 0.9,
               fontWeight: '400'

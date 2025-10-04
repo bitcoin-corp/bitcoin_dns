@@ -28,21 +28,21 @@ const Dock: React.FC = () => {
   }, []);
 
   const getRainbowColor = (index: number): string => {
-    const purpleYellowColors = [
-      '#A855F7', // Purple
-      '#9333EA', // Deep Purple
-      '#8B5CF6', // Violet
-      '#7C3AED', // Purple
-      '#6D28D9', // Dark Purple
-      '#F59E0B', // Amber
-      '#FBBF24', // Yellow
-      '#FDE047', // Bright Yellow
-      '#FACC15', // Yellow
-      '#EAB308', // Gold
-      '#D97706', // Orange
-      '#F97316'  // Orange-Red
+    const rainbowColors = [
+      '#ff0000', // Red
+      '#ff8000', // Orange  
+      '#ffff00', // Yellow
+      '#80ff00', // Lime
+      '#00ff00', // Green
+      '#00ff80', // Spring Green
+      '#00ffff', // Cyan
+      '#0080ff', // Blue
+      '#0000ff', // Deep Blue
+      '#8000ff', // Purple
+      '#ff00ff', // Magenta
+      '#ff0080'  // Rose
     ];
-    return purpleYellowColors[index % purpleYellowColors.length];
+    return rainbowColors[index % rainbowColors.length];
   };
 
   const getIconColor = (colorClass: string, index: number = 0): string => {
