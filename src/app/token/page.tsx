@@ -24,7 +24,7 @@ export default function TokenPage() {
             <p className="token-tagline">
               Decentralized domain names meet sustainable economics
             </p>
-            <div className="token-badge">$BDNS</div>
+            <div className="token-badge">$BDNS • BRC-100</div>
           </section>
 
           {/* Philosophy Section */}
@@ -37,8 +37,10 @@ export default function TokenPage() {
                 and features is welcomed and encouraged.
               </p>
               <p>
-                The $BDNS token represents our approach to creating a sustainable economic model that 
-                aims to reward contributors while maintaining transparency and openness in decentralized domain management.
+                The $BDNS token leverages the <strong>BRC-100 protocol stack</strong> to create a comprehensive 
+                economic model with automated governance (BRC-101), market making (BRC-102), and cross-chain 
+                compatibility (BRC-103). This enables transparent and decentralized domain management with 
+                proven blockchain infrastructure.
               </p>
               <div className="philosophy-points">
                 <div className="point">
@@ -50,8 +52,8 @@ export default function TokenPage() {
                   <p>Contributors earn tokens through meaningful work</p>
                 </div>
                 <div className="point">
-                  <h3>Value Aligned</h3>
-                  <p>Success shared with those who build it</p>
+                  <h3>BRC-100 Powered</h3>
+                  <p>Advanced governance, AMM, and cross-chain features</p>
                 </div>
               </div>
             </div>
@@ -64,18 +66,20 @@ export default function TokenPage() {
               <h3>How It Works</h3>
               <ul>
                 <li>
-                  <strong>Token Distribution:</strong> Tokens are allocated at our discretion to developers 
-                  who contribute meaningful code that gets merged into production
+                  <strong>BRC-100 Architecture:</strong> Built on proven protocols - BRC-101 governance, 
+                  BRC-102 automated market making, and BRC-103 cross-chain bridging
                 </li>
                 <li>
-                  <strong>Revenue Sharing:</strong> The Bitcoin Corporation LTD intends to distribute 
-                  dividends to token holders from domain registration fees and platform revenues
+                  <strong>Automated Revenue Distribution:</strong> BRC-102 AMM automatically distributes 
+                  revenue to token holders based on liquidity provision and governance participation
                 </li>
                 <li>
-                  <strong>Contribution = Ownership:</strong> Build value, receive tokens, share in success
+                  <strong>Democratic Governance:</strong> BRC-101 enables token-weighted voting on domain 
+                  governance with proof-based proposal execution
                 </li>
                 <li>
-                  <strong>Transparent Allocation:</strong> All token grants are recorded on-chain via BSV
+                  <strong>Cross-Protocol Compatibility:</strong> Compatible with entire BRC-100 ecosystem 
+                  for maximum interoperability and network effects
                 </li>
               </ul>
             </div>
@@ -126,6 +130,73 @@ export default function TokenPage() {
                   distribution to any contributor who does not meet regulatory requirements
                 </li>
               </ul>
+            </div>
+          </section>
+
+          {/* BRC-100 Features Section */}
+          <section className="brc100-section">
+            <h2>Built on BRC-100 Protocol Stack</h2>
+            <div className="brc100-content">
+              <p className="intro">
+                Bitcoin DNS leverages the complete BRC-100 ecosystem to provide enterprise-grade 
+                governance, automated market making, and cross-chain compatibility.
+              </p>
+
+              <div className="brc100-protocols">
+                <div className="protocol">
+                  <h4>BRC-101 Governance</h4>
+                  <ul>
+                    <li>Token-weighted voting on domain proposals</li>
+                    <li>Proof-based execution for DNS updates</li>
+                    <li>Delegated voting and proxy systems</li>
+                    <li>Nested governance for sub-domains</li>
+                  </ul>
+                </div>
+                <div className="protocol">
+                  <h4>BRC-102 Market Making</h4>
+                  <ul>
+                    <li>Automated revenue distribution via AMM</li>
+                    <li>Constant product formula (x*y=k)</li>
+                    <li>Liquidity provision rewards</li>
+                    <li>Price discovery for domain shares</li>
+                  </ul>
+                </div>
+                <div className="protocol">
+                  <h4>BRC-103 Cross-Chain</h4>
+                  <ul>
+                    <li>Bridge assets between different chains</li>
+                    <li>Unified governance across protocols</li>
+                    <li>Cross-domain interoperability</li>
+                    <li>Multi-chain domain management</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="brc100-advantages">
+                <h3>Why BRC-100?</h3>
+                <div className="advantage-grid">
+                  <div className="advantage">
+                    <span className="advantage-icon">🏗️</span>
+                    <h4>Proven Architecture</h4>
+                    <p>Battle-tested protocols with extensive ecosystem support</p>
+                  </div>
+                  <div className="advantage">
+                    <span className="advantage-icon">⚡</span>
+                    <h4>Faster Development</h4>
+                    <p>Use existing infrastructure instead of building from scratch</p>
+                  </div>
+                  <div className="advantage">
+                    <span className="advantage-icon">🔗</span>
+                    <h4>Network Effects</h4>
+                    <p>Compatible with entire BRC-100 application ecosystem</p>
+                  </div>
+                  <div className="advantage">
+                    <span className="advantage-icon">🛡️</span>
+                    <h4>Enhanced Security</h4>
+                    <p>Benefit from ongoing security audits and improvements</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -486,6 +557,120 @@ export default function TokenPage() {
           color: rgba(255, 255, 255, 0.7);
           margin: 0;
           line-height: 1.5;
+          font-weight: 300;
+        }
+
+        /* BRC-100 Section */
+        .brc100-section {
+          background: #0a0a0a;
+        }
+
+        .brc100-content .intro {
+          font-size: 18px;
+          line-height: 1.6;
+          color: rgba(255, 255, 255, 0.8);
+          text-align: center;
+          max-width: 800px;
+          margin: 0 auto 40px;
+          font-weight: 300;
+        }
+
+        .brc100-protocols {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+          margin-bottom: 40px;
+        }
+
+        .protocol {
+          background: transparent;
+          border: 1px solid rgba(0, 255, 136, 0.2);
+          border-radius: 4px;
+          padding: 20px;
+        }
+
+        .protocol h4 {
+          font-size: 18px;
+          font-weight: 400;
+          margin: 0 0 16px 0;
+          color: #00ff88;
+          text-align: center;
+        }
+
+        .protocol ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+
+        .protocol li {
+          font-size: 14px;
+          color: rgba(255, 255, 255, 0.8);
+          padding: 6px 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          font-weight: 300;
+          position: relative;
+          padding-left: 16px;
+        }
+
+        .protocol li:last-child {
+          border-bottom: none;
+        }
+
+        .protocol li::before {
+          content: '•';
+          position: absolute;
+          left: 0;
+          color: #00ff88;
+          font-size: 16px;
+        }
+
+        .brc100-advantages h3 {
+          font-size: 20px;
+          font-weight: 300;
+          margin: 0 0 24px 0;
+          text-align: center;
+          color: #00ff88;
+        }
+
+        .advantage-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+        }
+
+        .advantage {
+          text-align: center;
+          padding: 20px 16px;
+          background: rgba(255, 255, 255, 0.01);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 4px;
+          transition: all 0.2s ease;
+        }
+
+        .advantage:hover {
+          border-color: rgba(0, 255, 136, 0.3);
+          background: rgba(0, 255, 136, 0.01);
+        }
+
+        .advantage-icon {
+          font-size: 32px;
+          display: block;
+          margin-bottom: 12px;
+        }
+
+        .advantage h4 {
+          font-size: 16px;
+          font-weight: 400;
+          margin: 0 0 8px 0;
+          color: #ffffff;
+        }
+
+        .advantage p {
+          font-size: 14px;
+          color: rgba(255, 255, 255, 0.6);
+          margin: 0;
+          line-height: 1.4;
           font-weight: 300;
         }
 
@@ -932,7 +1117,9 @@ export default function TokenPage() {
           .philosophy-points,
           .revenue-streams,
           .contribute-steps,
-          .stats-grid {
+          .stats-grid,
+          .brc100-protocols,
+          .advantage-grid {
             grid-template-columns: 1fr;
           }
           
