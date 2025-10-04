@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import PocBar from "@/components/PocBar";
 import DevLayout from "@/components/DevLayout";
+import Dock from "@/components/Dock";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <DevLayout>
           {children}
         </DevLayout>
+        <Dock />
       </body>
     </html>
   );
