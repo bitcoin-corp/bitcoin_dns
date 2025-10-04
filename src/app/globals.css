@@ -46,6 +46,7 @@ body {
   background: var(--bg-primary);
   color: var(--foreground);
   font-family: 'SF Pro Display', 'Helvetica Neue', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 300; /* Thin font weight */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
