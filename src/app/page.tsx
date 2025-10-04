@@ -30,28 +30,125 @@ export default function Home() {
               Register, trade, and govern domains with enterprise-grade security.
             </p>
 
-            {/* Search Bar */}
-            <div className="max-w-2xl mx-auto">
-              <div className="relative flex items-center bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-purple-500/30 overflow-hidden">
-                <Search className="w-6 h-6 text-purple-400 ml-6" />
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search for your perfect domain..."
-                  className="flex-1 px-4 py-6 text-lg outline-none bg-transparent text-white placeholder-gray-400"
-                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                />
-                <button
-                  onClick={handleSearch}
-                  className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-8 py-6 font-semibold hover:from-purple-700 hover:to-blue-600 transition-all duration-200 flex items-center space-x-2"
-                >
-                  <span>Search</span>
-                  <ArrowRight className="w-5 h-5" />
-                </button>
+            {/* Business Registration Portal */}
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-purple-500/30 p-8">
+                <div className="text-center mb-8">
+                  <h3 className="text-xl font-light text-white mb-2">Corporate Domain Registration</h3>
+                  <p className="text-gray-400 font-light">Register your business domain and issue $bDNS tokens</p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Domain Registration */}
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-light text-gray-300 mb-2">Domain Name</label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          placeholder="yourbusiness.dns"
+                          className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 outline-none focus:border-purple-500 transition-colors"
+                        />
+                        <div className="absolute right-3 top-3">
+                          <Globe className="w-5 h-5 text-gray-400" />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-light text-gray-300 mb-2">Business Name</label>
+                      <input
+                        type="text"
+                        placeholder="Your Business Ltd."
+                        className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 outline-none focus:border-purple-500 transition-colors"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-light text-gray-300 mb-2">Business Email</label>
+                      <input
+                        type="email"
+                        placeholder="admin@yourbusiness.com"
+                        className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 outline-none focus:border-purple-500 transition-colors"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Token Options */}
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-light text-gray-300 mb-2">Token Supply</label>
+                      <select className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white outline-none focus:border-blue-500 transition-colors">
+                        <option>1,000,000 $bDNS</option>
+                        <option>10,000,000 $bDNS</option>
+                        <option>100,000,000 $bDNS</option>
+                        <option>Custom Amount</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-light text-gray-300 mb-2">Initial Price</label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          placeholder="0.001 BSV per token"
+                          className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 outline-none focus:border-blue-500 transition-colors"
+                        />
+                        <div className="absolute right-3 top-3">
+                          <Coins className="w-5 h-5 text-gray-400" />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-purple-600/10 border border-purple-500/20 rounded-lg p-4">
+                      <h4 className="text-sm font-light text-purple-300 mb-2">Registration Fee</h4>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-300 font-light">Domain + Token Setup</span>
+                        <span className="text-blue-400 font-light">0.1 BSV</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                  <button
+                    onClick={handleSearch}
+                    className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-8 py-4 rounded-xl font-light hover:from-purple-700 hover:to-blue-600 transition-all duration-200 flex items-center justify-center space-x-2"
+                  >
+                    <span>Register Domain</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                  <button className="border border-purple-500/30 text-purple-300 px-8 py-4 rounded-xl font-light hover:bg-purple-600/10 transition-all duration-200">
+                    Check Availability
+                  </button>
+                </div>
               </div>
-              <p className="text-sm text-gray-400 mt-3">
-                Try searching: &quot;coca-cola&quot;, &quot;google&quot;, &quot;microsoft&quot; or any brand name
+              
+              <div className="mt-6 p-6 bg-gray-900/50 border border-gray-600/30 rounded-lg">
+                <h4 className="text-sm font-light text-blue-300 mb-3">DNS Configuration Required</h4>
+                <div className="space-y-2 text-xs font-light text-gray-400">
+                  <div className="flex justify-between">
+                    <span>CNAME Record:</span>
+                    <span className="text-blue-400 font-mono">yourdomain.com → ns.bitcoin-dns.com</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>A Record:</span>
+                    <span className="text-blue-400 font-mono">@ → 185.199.108.153</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>TXT Record:</span>
+                    <span className="text-blue-400 font-mono">bitcoin-dns-verify=your-token</span>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 mt-3 font-light">
+                  After registration, configure these DNS records with your domain registrar to enable Bitcoin DNS resolution
+                </p>
+              </div>
+              
+              <p className="text-sm text-gray-400 mt-4 text-center font-light">
+                Secure your corporate domain on Bitcoin SV blockchain with instant token issuance
               </p>
             </div>
 
