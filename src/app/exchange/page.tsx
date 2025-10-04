@@ -1,11 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -13,24 +8,21 @@ import {
   DollarSign, 
   Users, 
   ArrowUpDown, 
-  Plus, 
-  Minus,
-  Target,
   Globe,
-  Vote,
-  Coins,
   BarChart3,
   Wallet,
-  Shield,
-  Zap,
-  Link,
-  Info
+  Info,
+  Search,
+  Star,
+  Volume2,
+  ExternalLink,
+  Menu
 } from 'lucide-react';
 
-// BRC-100 Protocol Types
 interface DomainToken {
   ticker: string;
   domain: string;
+  fullName: string;
   totalSupply: number;
   marketCap: number;
   price: number;
@@ -39,196 +31,222 @@ interface DomainToken {
   holders: number;
   governanceWeight: number;
   lastUpdate: number;
+  rank: number;
+  urlVolume: number;
+  featured?: boolean;
 }
 
-interface BRC102Pool {
-  ticker: string;
-  domain: string;
-  reserves: {
-    token: number;
-    btc: number;
-  };
-  totalLiquidity: number;
-  feeRate: number;
-  apy: number;
-  participants: number;
-  volume24h: number;
-}
-
-interface Trade {
+interface URLShare {
   id: string;
-  type: 'buy' | 'sell';
-  ticker: string;
-  amount: number;
-  price: number;
-  total: number;
-  timestamp: number;
-  status: 'pending' | 'completed' | 'failed';
-}
-
-interface GovernanceProposal {
-  id: string;
-  ticker: string;
   domain: string;
-  title: string;
-  description: string;
-  type: 'content_update' | 'subdomain_config' | 'revenue_split' | 'ownership_transfer';
-  proposer: string;
-  votes: {
-    yes: number;
-    no: number;
-    abstain: number;
-  };
-  quorum: number;
-  threshold: number;
-  endTime: number;
-  status: 'active' | 'passed' | 'failed' | 'executed';
+  ticker: string;
+  fullName: string;
+  sharesOwned: number;
+  totalShares: number;
+  purchasePrice: number;
+  currentPrice: number;
+  lastUpdate: string;
+  urlVolume: number;
+  featured?: boolean;
 }
 
 const ExchangePage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('trading');
   const [selectedToken, setSelectedToken] = useState<DomainToken | null>(null);
   const [tradeAmount, setTradeAmount] = useState('');
   const [tradeType, setTradeType] = useState<'buy' | 'sell'>('buy');
   const [mounted, setMounted] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState<'rank' | 'volume' | 'price' | 'change'>('rank');
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Mock data for demonstration
+  // Mock URL shares data
+  const userShares: URLShare[] = [
+    {
+      id: '1',
+      domain: 'coca-cola.bdns',
+      ticker: '$bKO',
+      fullName: 'Coca-Cola Company',
+      sharesOwned: 150,
+      totalShares: 1000000,
+      purchasePrice: 245,
+      currentPrice: 250,
+      lastUpdate: '2h ago',
+      urlVolume: 125000,
+      featured: true
+    },
+    {
+      id: '2',
+      domain: 'google.bdns',
+      ticker: '$bGOOGL',
+      fullName: 'Google LLC',
+      sharesOwned: 75,
+      totalShares: 2000000,
+      purchasePrice: 410,
+      currentPrice: 400,
+      lastUpdate: '1h ago',
+      urlVolume: 287000,
+      featured: true
+    },
+    {
+      id: '3',
+      domain: 'microsoft.bdns',
+      ticker: '$bMSFT',
+      fullName: 'Microsoft Corporation',
+      sharesOwned: 200,
+      totalShares: 1500000,
+      purchasePrice: 385,
+      currentPrice: 400,
+      lastUpdate: '3h ago',
+      urlVolume: 156000
+    },
+    {
+      id: '4',
+      domain: 'tesla.bdns',
+      ticker: '$bTSLA',
+      fullName: 'Tesla Inc',
+      sharesOwned: 50,
+      totalShares: 800000,
+      purchasePrice: 320,
+      currentPrice: 315,
+      lastUpdate: '5h ago',
+      urlVolume: 89000
+    }
+  ];
+
+  // Mock trading data for table
   const domainTokens: DomainToken[] = [
     {
-      ticker: '$bDNS/Coca-Cola',
+      rank: 1,
+      ticker: '$bKO',
       domain: 'coca-cola.bdns',
+      fullName: 'Coca-Cola Company',
       totalSupply: 1000000,
       marketCap: 250000000,
       price: 250,
       priceChange24h: 5.2,
       volume24h: 125000,
+      urlVolume: 125000,
       holders: 1247,
       governanceWeight: 0.15,
-      lastUpdate: Date.now()
+      lastUpdate: Date.now(),
+      featured: true
     },
     {
-      ticker: '$bDNS/Google',
+      rank: 2,
+      ticker: '$bGOOGL',
       domain: 'google.bdns',
+      fullName: 'Google LLC',
       totalSupply: 2000000,
       marketCap: 800000000,
       price: 400,
       priceChange24h: -2.1,
       volume24h: 287000,
+      urlVolume: 287000,
       holders: 3421,
       governanceWeight: 0.28,
-      lastUpdate: Date.now()
+      lastUpdate: Date.now(),
+      featured: true
     },
     {
-      ticker: '$bDNS/Microsoft',
+      rank: 3,
+      ticker: '$bMSFT',
       domain: 'microsoft.bdns',
+      fullName: 'Microsoft Corporation',
       totalSupply: 1500000,
       marketCap: 600000000,
       price: 400,
       priceChange24h: 3.7,
       volume24h: 156000,
+      urlVolume: 156000,
       holders: 2187,
       governanceWeight: 0.22,
+      lastUpdate: Date.now()
+    },
+    {
+      rank: 4,
+      ticker: '$bTSLA',
+      domain: 'tesla.bdns',
+      fullName: 'Tesla Inc',
+      totalSupply: 800000,
+      marketCap: 252000000,
+      price: 315,
+      priceChange24h: -1.5,
+      volume24h: 89000,
+      urlVolume: 89000,
+      holders: 892,
+      governanceWeight: 0.18,
+      lastUpdate: Date.now()
+    },
+    {
+      rank: 5,
+      ticker: '$bAMZN',
+      domain: 'amazon.bdns',
+      fullName: 'Amazon Inc',
+      totalSupply: 1200000,
+      marketCap: 480000000,
+      price: 400,
+      priceChange24h: 2.8,
+      volume24h: 198000,
+      urlVolume: 198000,
+      holders: 1856,
+      governanceWeight: 0.25,
+      lastUpdate: Date.now()
+    },
+    {
+      rank: 6,
+      ticker: '$bNFLX',
+      domain: 'netflix.bdns',
+      fullName: 'Netflix Inc',
+      totalSupply: 600000,
+      marketCap: 180000000,
+      price: 300,
+      priceChange24h: -0.8,
+      volume24h: 67000,
+      urlVolume: 67000,
+      holders: 634,
+      governanceWeight: 0.12,
+      lastUpdate: Date.now()
+    },
+    {
+      rank: 7,
+      ticker: '$bKO2',
+      domain: 'coke.bdns',
+      fullName: 'The Coca-Cola Company',
+      totalSupply: 900000,
+      marketCap: 225000000,
+      price: 250,
+      priceChange24h: 1.2,
+      volume24h: 45000,
+      urlVolume: 45000,
+      holders: 567,
+      governanceWeight: 0.10,
       lastUpdate: Date.now()
     }
   ];
 
-  const liquidityPools: BRC102Pool[] = [
-    {
-      ticker: '$bDNS/Coca-Cola',
-      domain: 'coca-cola.bdns',
-      reserves: {
-        token: 45000,
-        btc: 11250000
-      },
-      totalLiquidity: 67500000,
-      feeRate: 0.3,
-      apy: 24.5,
-      participants: 156,
-      volume24h: 125000
-    },
-    {
-      ticker: '$bDNS/Google',
-      domain: 'google.bdns',
-      reserves: {
-        token: 78000,
-        btc: 31200000
-      },
-      totalLiquidity: 124800000,
-      feeRate: 0.3,
-      apy: 18.7,
-      participants: 287,
-      volume24h: 287000
-    }
-  ];
+  // Filter and sort tokens
+  const filteredTokens = domainTokens
+    .filter(token => 
+      token.ticker.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      token.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      token.domain.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'rank': return a.rank - b.rank;
+        case 'volume': return b.urlVolume - a.urlVolume;
+        case 'price': return b.price - a.price;
+        case 'change': return b.priceChange24h - a.priceChange24h;
+        default: return a.rank - b.rank;
+      }
+    });
 
-  const governanceProposals: GovernanceProposal[] = [
-    {
-      id: 'prop-001',
-      ticker: '$bDNS/Coca-Cola',
-      domain: 'coca-cola.bdns',
-      title: 'Update Brand Assets and Content',
-      description: 'Proposal to update the official brand assets, logos, and promotional content for the Coca-Cola domain to reflect the new campaign.',
-      type: 'content_update',
-      proposer: '1A2B3C...',
-      votes: {
-        yes: 125000,
-        no: 23000,
-        abstain: 5000
-      },
-      quorum: 100000,
-      threshold: 0.51,
-      endTime: Date.now() + 86400000 * 3,
-      status: 'active'
-    },
-    {
-      id: 'prop-002',
-      ticker: '$bDNS/Google',
-      domain: 'google.bdns',
-      title: 'Adjust Revenue Distribution',
-      description: 'Proposal to modify the revenue distribution model to allocate 40% to token holders, 30% to liquidity providers, and 30% to development fund.',
-      type: 'revenue_split',
-      proposer: '4D5E6F...',
-      votes: {
-        yes: 234000,
-        no: 187000,
-        abstain: 12000
-      },
-      quorum: 200000,
-      threshold: 0.51,
-      endTime: Date.now() + 86400000 * 5,
-      status: 'active'
-    }
-  ];
-
-  const recentTrades: Trade[] = [
-    {
-      id: 'trade-001',
-      type: 'buy',
-      ticker: '$bDNS/Coca-Cola',
-      amount: 100,
-      price: 250,
-      total: 25000,
-      timestamp: Date.now() - 300000,
-      status: 'completed'
-    },
-    {
-      id: 'trade-002',
-      type: 'sell',
-      ticker: '$bDNS/Google',
-      amount: 50,
-      price: 400,
-      total: 20000,
-      timestamp: Date.now() - 600000,
-      status: 'completed'
-    }
-  ];
-
-  const formatPrice = (satoshis: number): string => {
-    return (satoshis / 100000000).toFixed(8) + ' BTC';
+  const formatPrice = (price: number): string => {
+    return '$' + price.toFixed(2);
   };
 
   const formatNumber = (num: number): string => {
@@ -241,21 +259,20 @@ const ExchangePage: React.FC = () => {
     return num.toString();
   };
 
-  const getTimeRemaining = (endTime: number): string => {
-    const diff = endTime - Date.now();
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    return `${days}d ${hours}h`;
+  const getGainLoss = (current: number, purchase: number) => {
+    const change = current - purchase;
+    const changePercent = ((change / purchase) * 100);
+    return { change, changePercent };
   };
 
   if (!mounted) {
     return (
-      <div className="container mx-auto p-6">
+      <div className="h-screen bg-gray-950 flex items-center justify-center">
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
+          <div className="h-8 bg-gray-800 rounded w-64 mb-6"></div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-32 bg-gray-200 rounded"></div>
+              <div key={i} className="h-32 bg-gray-800 rounded"></div>
             ))}
           </div>
         </div>
@@ -264,499 +281,398 @@ const ExchangePage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-500 to-yellow-400 bg-clip-text text-transparent">
-            Bitcoin DNS Exchange
-          </h1>
-          <p className="text-gray-600 mt-2">
-            Trade domain tokens, provide liquidity, and participate in governance using the BRC-100 protocol stack
-          </p>
+    <div className="h-screen bg-gray-950 flex overflow-hidden">
+      {/* URL Shares Sidebar */}
+      <div className={`${sidebarCollapsed ? 'w-16' : 'w-80'} bg-gray-900 border-r border-gray-800 flex flex-col transition-all duration-300`}>
+        <div className="p-4 border-b border-gray-800 flex items-center justify-between">
+          <button
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          {!sidebarCollapsed && (
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-lg flex items-center justify-center">
+                <Wallet className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold text-white">My URL Shares</h2>
+                <p className="text-xs text-gray-400">{userShares.length} positions</p>
+              </div>
+            </div>
+          )}
         </div>
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <Activity className="w-4 h-4" />
-          <span>BRC-100 Protocol Active</span>
+        
+        {!sidebarCollapsed && (
+          <div className="flex-1 overflow-y-auto p-4">
+            <div className="space-y-3">
+              {userShares.map((share) => {
+                const { change, changePercent } = getGainLoss(share.currentPrice, share.purchasePrice);
+                return (
+                  <div
+                    key={share.id}
+                    className={`p-4 rounded-lg border transition-colors cursor-pointer ${
+                      selectedToken?.ticker === share.ticker 
+                        ? 'border-orange-500 bg-orange-50/5' 
+                        : 'border-gray-700 hover:border-gray-600 bg-gray-800/30'
+                    }`}
+                    onClick={() => {
+                      const token = domainTokens.find(t => t.ticker === share.ticker);
+                      if (token) setSelectedToken(token);
+                    }}
+                  >
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-yellow-400 flex items-center justify-center text-white text-sm font-bold">
+                        {share.fullName.charAt(0)}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <p className="font-medium text-white text-sm truncate">{share.ticker}</p>
+                          {share.featured && (
+                            <Star className="w-3 h-3 text-yellow-400 fill-current" />
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-400 truncate">{share.fullName}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-1 text-xs">
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Shares:</span>
+                        <span className="text-white">{formatNumber(share.sharesOwned)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Current:</span>
+                        <span className="text-white">{formatPrice(share.currentPrice)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">P&L:</span>
+                        <span className={`${change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                          {change >= 0 ? '+' : ''}{formatPrice(change * share.sharesOwned)} ({changePercent >= 0 ? '+' : ''}{changePercent.toFixed(1)}%)
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Volume:</span>
+                        <span className="text-blue-400">{formatNumber(share.urlVolume)}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-2 text-xs text-gray-500">
+                      Updated {share.lastUpdate}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {/* Portfolio Summary */}
+            <div className="mt-6 p-4 bg-gray-800/50 rounded-lg">
+              <h3 className="text-sm font-medium text-white mb-3">Portfolio Summary</h3>
+              <div className="space-y-2 text-xs">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Total Value:</span>
+                  <span className="text-white">$2,450</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">24h Change:</span>
+                  <span className="text-green-400">+12.5%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Total Positions:</span>
+                  <span className="text-white">{userShares.length}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+      
+      {/* Main Trading Interface */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Header */}
+        <div className="bg-gray-900/95 backdrop-blur-xl border-b border-gray-800 p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-yellow-400 bg-clip-text text-transparent">
+                Bitcoin DNS Exchange
+              </h1>
+              <p className="text-gray-400 mt-1">
+                Trade domain tokens, provide liquidity, and participate in governance using the BRC-100 protocol stack
+              </p>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-400">
+              <Activity className="w-4 h-4" />
+              <span>BRC-100 Protocol Active</span>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* Protocol Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Market Cap</p>
-                <p className="text-2xl font-bold">₿{(domainTokens.reduce((sum, token) => sum + token.marketCap, 0) / 100000000).toFixed(2)}</p>
+        {/* Protocol Overview Cards */}
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-400">Total Market Cap</p>
+                  <p className="text-xl font-bold text-white">${(domainTokens.reduce((sum, token) => sum + token.marketCap, 0) / 1000000).toFixed(0)}M</p>
+                </div>
+                <DollarSign className="w-6 h-6 text-orange-500" />
               </div>
-              <DollarSign className="w-8 h-8 text-purple-500" />
             </div>
-          </CardContent>
-        </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">24h Volume</p>
-                <p className="text-2xl font-bold">₿{(domainTokens.reduce((sum, token) => sum + token.volume24h, 0) / 100000000).toFixed(2)}</p>
+            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-400">24h Volume</p>
+                  <p className="text-xl font-bold text-white">${(domainTokens.reduce((sum, token) => sum + token.volume24h, 0) / 1000).toFixed(0)}K</p>
+                </div>
+                <BarChart3 className="w-6 h-6 text-blue-500" />
               </div>
-              <BarChart3 className="w-8 h-8 text-blue-500" />
             </div>
-          </CardContent>
-        </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Active Domains</p>
-                <p className="text-2xl font-bold">{domainTokens.length}</p>
+            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-400">Active Domains</p>
+                  <p className="text-xl font-bold text-white">{domainTokens.length}</p>
+                </div>
+                <Globe className="w-6 h-6 text-yellow-500" />
               </div>
-              <Globe className="w-8 h-8 text-yellow-500" />
             </div>
-          </CardContent>
-        </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Holders</p>
-                <p className="text-2xl font-bold">{formatNumber(domainTokens.reduce((sum, token) => sum + token.holders, 0))}</p>
+            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-400">Total Holders</p>
+                  <p className="text-xl font-bold text-white">{formatNumber(domainTokens.reduce((sum, token) => sum + token.holders, 0))}</p>
+                </div>
+                <Users className="w-6 h-6 text-purple-500" />
               </div>
-              <Users className="w-8 h-8 text-purple-500" />
             </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
 
-      {/* Main Exchange Interface */}
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="trading">Trading</TabsTrigger>
-          <TabsTrigger value="liquidity">Liquidity</TabsTrigger>
-          <TabsTrigger value="governance">Governance</TabsTrigger>
-          <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-        </TabsList>
+          {/* Trading Table Controls */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-4">
+              <h2 className="text-xl font-semibold text-white">Token Rankings</h2>
+              <div className="flex items-center gap-2">
+                <Search className="w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search tokens..."
+                  className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                />
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-400">Sort by:</span>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as 'rank' | 'volume' | 'price' | 'change')}
+                className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500"
+              >
+                <option value="rank">Rank</option>
+                <option value="volume">Volume</option>
+                <option value="price">Price</option>
+                <option value="change">24h Change</option>
+              </select>
+            </div>
+          </div>
 
-        <TabsContent value="trading" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Token List */}
-            <Card className="lg:col-span-2">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Coins className="w-5 h-5" />
-                  Domain Tokens
-                </CardTitle>
-                <CardDescription>
-                  BRC-100 tokenized domains available for trading
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {domainTokens.map((token) => (
-                    <div
+          {/* Trading Table */}
+          <div className="bg-gray-800/50 border border-gray-700 rounded-xl overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-gray-700">
+                    <th className="text-left p-4 text-sm font-medium text-gray-400">Rank</th>
+                    <th className="text-left p-4 text-sm font-medium text-gray-400">Token</th>
+                    <th className="text-right p-4 text-sm font-medium text-gray-400">Price</th>
+                    <th className="text-right p-4 text-sm font-medium text-gray-400">24h Change</th>
+                    <th className="text-right p-4 text-sm font-medium text-gray-400">URL Volume</th>
+                    <th className="text-right p-4 text-sm font-medium text-gray-400">Holders</th>
+                    <th className="text-right p-4 text-sm font-medium text-gray-400">Market Cap</th>
+                    <th className="text-center p-4 text-sm font-medium text-gray-400">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredTokens.map((token) => (
+                    <tr
                       key={token.ticker}
-                      className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-colors ${
-                        selectedToken?.ticker === token.ticker 
-                          ? 'border-purple-500 bg-purple-50' 
-                          : 'border-gray-200 hover:border-gray-300'
+                      className={`border-b border-gray-800 hover:bg-gray-700/30 transition-colors cursor-pointer ${
+                        selectedToken?.ticker === token.ticker ? 'bg-orange-500/10' : ''
                       }`}
                       onClick={() => setSelectedToken(token)}
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-yellow-400 flex items-center justify-center text-white font-bold">
-                          {token.domain.split('.')[0].charAt(0).toUpperCase()}
-                        </div>
-                        <div>
-                          <p className="font-semibold">{token.ticker}</p>
-                          <p className="text-sm text-gray-600">{token.domain}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-semibold">{formatPrice(token.price)}</p>
-                        <div className="flex items-center gap-1">
-                          {token.priceChange24h > 0 ? (
-                            <TrendingUp className="w-3 h-3 text-green-500" />
-                          ) : (
-                            <TrendingDown className="w-3 h-3 text-red-500" />
+                      <td className="p-4">
+                        <div className="flex items-center gap-2">
+                          <span className="text-gray-300 font-medium">#{token.rank}</span>
+                          {token.featured && (
+                            <Star className="w-3 h-3 text-yellow-400 fill-current" />
                           )}
-                          <span className={`text-sm ${token.priceChange24h > 0 ? 'text-green-500' : 'text-red-500'}`}>
-                            {Math.abs(token.priceChange24h)}%
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-yellow-400 flex items-center justify-center text-white text-sm font-bold">
+                            {token.fullName.charAt(0)}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <p className="font-medium text-white">{token.ticker}</p>
+                              <ExternalLink className="w-3 h-3 text-gray-400" />
+                            </div>
+                            <p className="text-xs text-gray-400">{token.fullName}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-4 text-right">
+                        <p className="font-medium text-white">{formatPrice(token.price)}</p>
+                      </td>
+                      <td className="p-4 text-right">
+                        <div className="flex items-center justify-end gap-1">
+                          {token.priceChange24h > 0 ? (
+                            <TrendingUp className="w-3 h-3 text-green-400" />
+                          ) : (
+                            <TrendingDown className="w-3 h-3 text-red-400" />
+                          )}
+                          <span className={`text-sm font-medium ${
+                            token.priceChange24h > 0 ? 'text-green-400' : 'text-red-400'
+                          }`}>
+                            {token.priceChange24h > 0 ? '+' : ''}{token.priceChange24h.toFixed(1)}%
                           </span>
                         </div>
-                      </div>
-                    </div>
+                      </td>
+                      <td className="p-4 text-right">
+                        <div className="flex items-center justify-end gap-1">
+                          <Volume2 className="w-3 h-3 text-blue-400" />
+                          <span className="text-white font-medium">{formatNumber(token.urlVolume)}</span>
+                        </div>
+                      </td>
+                      <td className="p-4 text-right">
+                        <span className="text-gray-300">{formatNumber(token.holders)}</span>
+                      </td>
+                      <td className="p-4 text-right">
+                        <span className="text-white font-medium">${(token.marketCap / 1000000).toFixed(0)}M</span>
+                      </td>
+                      <td className="p-4 text-center">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedToken(token);
+                          }}
+                          className="px-3 py-1 bg-orange-500 hover:bg-orange-600 text-white text-sm rounded-lg transition-colors"
+                        >
+                          Trade
+                        </button>
+                      </td>
+                    </tr>
                   ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Trading Panel */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <ArrowUpDown className="w-5 h-5" />
-                  Trade
-                  {selectedToken && (
-                    <Badge variant="outline">{selectedToken.ticker}</Badge>
-                  )}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {!selectedToken ? (
-                  <div className="text-center py-8 text-gray-500">
-                    <Target className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                    <p>Select a domain token to start trading</p>
-                  </div>
-                ) : (
-                  <>
-                    <div className="flex space-x-2">
-                      <Button
-                        variant={tradeType === 'buy' ? 'default' : 'outline'}
-                        onClick={() => setTradeType('buy')}
-                        className="flex-1"
-                      >
-                        Buy
-                      </Button>
-                      <Button
-                        variant={tradeType === 'sell' ? 'default' : 'outline'}
-                        onClick={() => setTradeType('sell')}
-                        className="flex-1"
-                      >
-                        Sell
-                      </Button>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Amount</label>
-                      <input
-                        type="number"
-                        value={tradeAmount}
-                        onChange={(e) => setTradeAmount(e.target.value)}
-                        placeholder="0"
-                        className="w-full p-3 border rounded-lg"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Price</label>
-                      <div className="p-3 bg-gray-50 rounded-lg">
-                        <p className="font-semibold">{formatPrice(selectedToken.price)}</p>
-                        <p className="text-sm text-gray-600">Current market price</p>
-                      </div>
-                    </div>
-
-                    {tradeAmount && (
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Total</label>
-                        <div className="p-3 bg-gray-50 rounded-lg">
-                          <p className="font-semibold">
-                            {formatPrice(selectedToken.price * parseFloat(tradeAmount))}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-
-                    <Button 
-                      className="w-full" 
-                      disabled={!tradeAmount || parseFloat(tradeAmount) <= 0}
-                    >
-                      {tradeType === 'buy' ? 'Buy' : 'Sell'} {selectedToken.ticker}
-                    </Button>
-
-                    <div className="p-3 bg-blue-50 rounded-lg">
-                      <div className="flex items-start gap-2">
-                        <Info className="w-4 h-4 text-blue-500 mt-0.5" />
-                        <div className="text-sm text-blue-700">
-                          <p className="font-medium">BRC-102 AMM Pricing</p>
-                          <p>Trades execute via automated market maker using constant product formula (x*y=k)</p>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </CardContent>
-            </Card>
+                </tbody>
+              </table>
+            </div>
           </div>
-
-          {/* Recent Trades */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Trades</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {recentTrades.map((trade) => (
-                  <div key={trade.id} className="flex items-center justify-between p-3 rounded-lg border">
-                    <div className="flex items-center gap-3">
-                      <Badge variant={trade.type === 'buy' ? 'default' : 'secondary'}>
-                        {trade.type.toUpperCase()}
-                      </Badge>
-                      <span className="font-medium">{trade.ticker}</span>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-semibold">{trade.amount} tokens</p>
-                      <p className="text-sm text-gray-600">@ {formatPrice(trade.price)}</p>
-                    </div>
-                  </div>
-                ))}
+        </div>
+        
+        {/* Trading Panel - Fixed Right Side */}
+        {selectedToken && (
+          <div className="fixed right-6 top-32 w-80 bg-gray-800 border border-gray-700 rounded-xl p-4 shadow-xl z-50">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <ArrowUpDown className="w-5 h-5 text-orange-500" />
+                <h3 className="font-semibold text-white">Trade {selectedToken.ticker}</h3>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+              <button
+                onClick={() => setSelectedToken(null)}
+                className="text-gray-400 hover:text-white"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="flex bg-gray-700 rounded-lg p-1">
+                <button
+                  onClick={() => setTradeType('buy')}
+                  className={`flex-1 py-2 text-sm rounded-md transition-colors ${
+                    tradeType === 'buy' 
+                      ? 'bg-green-600 text-white' 
+                      : 'text-gray-300 hover:text-white'
+                  }`}
+                >
+                  Buy
+                </button>
+                <button
+                  onClick={() => setTradeType('sell')}
+                  className={`flex-1 py-2 text-sm rounded-md transition-colors ${
+                    tradeType === 'sell' 
+                      ? 'bg-red-600 text-white' 
+                      : 'text-gray-300 hover:text-white'
+                  }`}
+                >
+                  Sell
+                </button>
+              </div>
 
-        <TabsContent value="liquidity" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {liquidityPools.map((pool) => (
-              <Card key={pool.ticker}>
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-yellow-400 flex items-center justify-center text-white text-sm font-bold">
-                        {pool.domain.split('.')[0].charAt(0).toUpperCase()}
-                      </div>
-                      {pool.ticker}
-                    </div>
-                    <Badge variant="outline">{pool.apy}% APY</Badge>
-                  </CardTitle>
-                  <CardDescription>{pool.domain}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-sm text-gray-600">Token Reserves</p>
-                      <p className="font-semibold">{formatNumber(pool.reserves.token)}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600">BTC Reserves</p>
-                      <p className="font-semibold">{formatPrice(pool.reserves.btc)}</p>
-                    </div>
-                  </div>
+              <div>
+                <label className="text-sm font-medium text-gray-300">Amount</label>
+                <input
+                  type="number"
+                  value={tradeAmount}
+                  onChange={(e) => setTradeAmount(e.target.value)}
+                  placeholder="0"
+                  className="w-full mt-1 p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                />
+              </div>
 
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Total Liquidity</span>
-                      <span>{formatPrice(pool.totalLiquidity)}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>24h Volume</span>
-                      <span>{formatPrice(pool.volume24h)}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>LP Providers</span>
-                      <span>{pool.participants}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Fee Rate</span>
-                      <span>{pool.feeRate}%</span>
-                    </div>
-                  </div>
-
-                  <div className="flex space-x-2">
-                    <Button variant="outline" className="flex-1">
-                      <Plus className="w-4 h-4 mr-2" />
-                      Add Liquidity
-                    </Button>
-                    <Button variant="outline" className="flex-1">
-                      <Minus className="w-4 h-4 mr-2" />
-                      Remove
-                    </Button>
-                  </div>
-
-                  <div className="p-3 bg-green-50 rounded-lg">
-                    <div className="flex items-start gap-2">
-                      <Zap className="w-4 h-4 text-green-500 mt-0.5" />
-                      <div className="text-sm text-green-700">
-                        <p className="font-medium">BRC-102 Automated Rewards</p>
-                        <p>Earn trading fees automatically distributed to LP token holders</p>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="governance" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Vote className="w-5 h-5" />
-                Active Proposals
-              </CardTitle>
-              <CardDescription>
-                BRC-101 token-weighted voting for domain governance
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {governanceProposals.map((proposal) => (
-                <div key={proposal.id} className="border rounded-lg p-6 space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="font-semibold text-lg">{proposal.title}</h3>
-                        <Badge variant="outline">{proposal.ticker}</Badge>
-                        <Badge variant={proposal.status === 'active' ? 'default' : 'secondary'}>
-                          {proposal.status}
-                        </Badge>
-                      </div>
-                      <p className="text-gray-600 mb-3">{proposal.description}</p>
-                      <p className="text-sm text-gray-500">
-                        Proposed by: {proposal.proposer} • {getTimeRemaining(proposal.endTime)} remaining
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div className="flex justify-between text-sm">
-                      <span>Participation</span>
-                      <span>
-                        {formatNumber(proposal.votes.yes + proposal.votes.no + proposal.votes.abstain)} / {formatNumber(proposal.quorum)}
-                      </span>
-                    </div>
-                    <Progress 
-                      value={((proposal.votes.yes + proposal.votes.no + proposal.votes.abstain) / proposal.quorum) * 100} 
-                      className="h-2"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="text-center">
-                      <p className="text-2xl font-bold text-yellow-600">{formatNumber(proposal.votes.yes)}</p>
-                      <p className="text-sm text-gray-600">Yes</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-2xl font-bold text-red-600">{formatNumber(proposal.votes.no)}</p>
-                      <p className="text-sm text-gray-600">No</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-2xl font-bold text-gray-600">{formatNumber(proposal.votes.abstain)}</p>
-                      <p className="text-sm text-gray-600">Abstain</p>
-                    </div>
-                  </div>
-
-                  {proposal.status === 'active' && (
-                    <div className="flex space-x-2">
-                      <Button variant="outline" className="flex-1">
-                        <span className="text-yellow-600">Vote Yes</span>
-                      </Button>
-                      <Button variant="outline" className="flex-1">
-                        <span className="text-red-600">Vote No</span>
-                      </Button>
-                      <Button variant="outline" className="flex-1">
-                        <span className="text-gray-600">Abstain</span>
-                      </Button>
-                    </div>
-                  )}
-
-                  <div className="p-3 bg-purple-50 rounded-lg">
-                    <div className="flex items-start gap-2">
-                      <Shield className="w-4 h-4 text-purple-500 mt-0.5" />
-                      <div className="text-sm text-purple-700">
-                        <p className="font-medium">BRC-101 Weighted Voting</p>
-                        <p>Your voting power is proportional to your token holdings</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="portfolio" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Wallet className="w-5 h-5" />
-                  Token Holdings
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {domainTokens.slice(0, 2).map((token) => (
-                    <div key={token.ticker} className="flex items-center justify-between p-4 rounded-lg border">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-yellow-400 flex items-center justify-center text-white text-sm font-bold">
-                          {token.domain.split('.')[0].charAt(0).toUpperCase()}
-                        </div>
-                        <div>
-                          <p className="font-semibold">{token.ticker}</p>
-                          <p className="text-sm text-gray-600">500 tokens</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-semibold">{formatPrice(token.price * 500)}</p>
-                        <p className="text-sm text-gray-600">@ {formatPrice(token.price)}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Link className="w-5 h-5" />
-                  LP Positions
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {liquidityPools.slice(0, 2).map((pool) => (
-                    <div key={pool.ticker} className="flex items-center justify-between p-4 rounded-lg border">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center text-white text-sm font-bold">
-                          LP
-                        </div>
-                        <div>
-                          <p className="font-semibold">{pool.ticker}</p>
-                          <p className="text-sm text-gray-600">2.5% share</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-semibold">{formatPrice(pool.totalLiquidity * 0.025)}</p>
-                        <p className="text-sm text-yellow-600">{pool.apy}% APY</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Portfolio Summary</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="text-center p-4 bg-gradient-to-r from-purple-50 to-yellow-50 rounded-lg">
-                  <p className="text-2xl font-bold text-purple-600">₿0.0245</p>
-                  <p className="text-sm text-purple-600">Total Portfolio Value</p>
-                </div>
-                <div className="text-center p-4 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-lg">
-                  <p className="text-2xl font-bold text-yellow-600">+12.5%</p>
-                  <p className="text-sm text-yellow-600">24h Change</p>
-                </div>
-                <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg">
-                  <p className="text-2xl font-bold text-blue-600">₿0.0018</p>
-                  <p className="text-sm text-blue-600">LP Rewards (30d)</p>
-                </div>
-                <div className="text-center p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg">
-                  <p className="text-2xl font-bold text-purple-600">87%</p>
-                  <p className="text-sm text-purple-600">Governance Participation</p>
+              <div>
+                <label className="text-sm font-medium text-gray-300">Price</label>
+                <div className="mt-1 p-3 bg-gray-700 rounded-lg">
+                  <p className="font-semibold text-white">{formatPrice(selectedToken.price)}</p>
+                  <p className="text-xs text-gray-400">Current market price</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+
+              {tradeAmount && (
+                <div>
+                  <label className="text-sm font-medium text-gray-300">Total</label>
+                  <div className="mt-1 p-3 bg-gray-700 rounded-lg">
+                    <p className="font-semibold text-white">
+                      {formatPrice(selectedToken.price * parseFloat(tradeAmount))}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              <button
+                disabled={!tradeAmount || parseFloat(tradeAmount) <= 0}
+                className={`w-full py-3 rounded-lg font-medium transition-colors ${
+                  tradeType === 'buy'
+                    ? 'bg-green-600 hover:bg-green-700 disabled:bg-gray-600'
+                    : 'bg-red-600 hover:bg-red-700 disabled:bg-gray-600'
+                } text-white disabled:cursor-not-allowed`}
+              >
+                {tradeType === 'buy' ? 'Buy' : 'Sell'} {selectedToken.ticker}
+              </button>
+
+              <div className="p-3 bg-blue-900/30 border border-blue-700/30 rounded-lg">
+                <div className="flex items-start gap-2">
+                  <Info className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                  <div className="text-xs text-blue-300">
+                    <p className="font-medium">BRC-102 AMM Pricing</p>
+                    <p>Trades execute via automated market maker using constant product formula (x*y=k)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
     </div>
   );
 };
