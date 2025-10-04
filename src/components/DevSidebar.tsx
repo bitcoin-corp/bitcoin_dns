@@ -68,16 +68,18 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     badge?: string;
     divider?: boolean;
     external?: boolean;
+    subtitle?: string;
   }> = [
-    { path: '/contracts', icon: FileText, label: 'Contracts', badge: issueCount > 0 ? String(issueCount) : '0' },
-    { path: '/tasks', icon: Terminal, label: 'Tasks', badge: issueCount > 0 ? String(issueCount) : '0' },
+    { path: '/contracts', icon: FileText, label: 'Contracts', badge: '17', subtitle: 'Development contracts' },
+    { path: '/tasks', icon: Terminal, label: 'Tasks', badge: '17', subtitle: 'Active GitHub issues' },
     { path: '/contributions', icon: Users, label: 'Contributors', badge: '2' },
     { path: '/docs', icon: BookOpen, label: 'Documentation' },
     { path: '/token', icon: DollarSign, label: '$BDNS', badge: 'NEW' },
     { divider: true },
     { path: 'https://github.com/bitcoin-corp/bitcoin_dns', icon: GitBranch, label: 'GitHub', external: true },
-    { path: 'https://github.com/bitcoin-corp/bitcoin_dns/issues', icon: Bug, label: 'Issues', external: true, badge: issueCount > 0 ? String(issueCount) : undefined },
-    { path: 'https://github.com/bitcoin-corp/bitcoin_dns/pulls', icon: Code, label: 'Pull Requests', external: true },
+    { path: 'https://github.com/bitcoin-corp/bitcoin_dns/issues/1', icon: Bug, label: 'BSV Integration', external: true, badge: '3M $BDNS', subtitle: 'Critical • 4-6 weeks' },
+    { path: 'https://github.com/bitcoin-corp/bitcoin_dns/issues/2', icon: Package, label: 'NFT Container', external: true, badge: '2.5M $BDNS', subtitle: 'High • 3-4 weeks' },
+    { path: 'https://github.com/bitcoin-corp/bitcoin_dns/issues/3', icon: Code, label: 'Mainnet Deploy', external: true, badge: '4M $BDNS', subtitle: 'Critical • 6-8 weeks' },
     { divider: true },
     { path: '/api', icon: Package, label: 'API Reference' },
     { path: '/changelog', icon: FileText, label: 'Changelog' },
@@ -86,9 +88,9 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
 
   const stats = {
     totalTokens: '1,000,000,000',
-    distributed: '650,000',
-    contributors: '2',
-    openTasks: '30+'
+    devAllocation: '100,000,000',
+    activeContracts: '17',
+    totalRewards: '50M+'
   };
 
   return (
@@ -160,22 +162,22 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
 
       {!isCollapsed && (
         <div className="dev-sidebar-stats">
-          <h4>Token Stats</h4>
+          <h4>Development Fund</h4>
           <div className="dev-stat">
             <span className="dev-stat-label">Total Supply</span>
             <span className="dev-stat-value">{stats.totalTokens}</span>
           </div>
           <div className="dev-stat">
-            <span className="dev-stat-label">Distributed</span>
-            <span className="dev-stat-value">{stats.distributed}</span>
+            <span className="dev-stat-label">Dev Allocation</span>
+            <span className="dev-stat-value">{stats.devAllocation}</span>
           </div>
           <div className="dev-stat">
-            <span className="dev-stat-label">Contributors</span>
-            <span className="dev-stat-value">{stats.contributors}</span>
+            <span className="dev-stat-label">Active Contracts</span>
+            <span className="dev-stat-value">{stats.activeContracts}</span>
           </div>
           <div className="dev-stat">
-            <span className="dev-stat-label">Open Tasks</span>
-            <span className="dev-stat-value">{stats.openTasks}</span>
+            <span className="dev-stat-label">Total Rewards</span>
+            <span className="dev-stat-value">{stats.totalRewards}</span>
           </div>
         </div>
       )}
